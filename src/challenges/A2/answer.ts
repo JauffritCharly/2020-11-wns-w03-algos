@@ -9,12 +9,34 @@
  */
 
 // ↓ uncomment bellow lines and add your response!
-/*
-export default function ({ groups }: { groups: Group[] }): GroupWithSills[] {
-    return [];
-}
-*/
 
+export default function ({ groups }: { groups: Group[] }): GroupWithSills[] {
+
+    const groupsWithSkills = groups.map((group) => {
+
+    // le fait de faire un "Set" evite les doublons :
+      const uniqueSkills = new Set<string>();
+  
+      group.students.forEach((student) => {
+        student.skills.forEach((skill) => {
+          uniqueSkills.add(skill);
+        });
+      });
+  
+      // trie les skills par ordre Alphabétique : 
+      const sortedSkills = Array.from(uniqueSkills).sort();
+  
+      const groupWithSkills: GroupWithSills = {
+        ...group,
+        skills: sortedSkills,
+      };
+  
+      return groupWithSkills;
+    });
+  
+    return groupsWithSkills;
+  }
+  
 // used interfaces, do not touch
 interface Student {
     name: string;
